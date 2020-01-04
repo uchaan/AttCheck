@@ -27,10 +27,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     private LoginButton btn_facebook_login;
-
-    // **************** Custom Button **************
     private TextView txtName,txtEmail;
-    //**********************************************
 
     private CallbackManager callbackManager;
 
@@ -42,13 +39,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn_facebook_login = findViewById(R.id.btn_facebook_login);
-        txtName = findViewById(R.id.profile_name);
-        txtEmail = findViewById(R.id.profile_email);
 
+        init();
 
         callbackManager = CallbackManager.Factory.create();
         btn_facebook_login.setReadPermissions(Arrays.asList("email","public_profile"));
+
         checkLoginStatus();
 
         btn_facebook_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -72,14 +68,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void init() {
+        btn_facebook_login = findViewById(R.id.btn_facebook_login);
+        txtName = findViewById(R.id.profile_name);
+        txtEmail = findViewById(R.id.profile_email);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
-    // ***************************************************
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken)
