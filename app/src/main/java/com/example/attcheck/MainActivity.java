@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult)
             {
-
+                Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
+                intent.putExtra("name", user_last_name+user_first_name);
+                startActivity(intent);
             }
 
             @Override
