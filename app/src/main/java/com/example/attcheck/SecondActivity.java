@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,10 +23,10 @@ import java.util.ArrayList;
 
 public class SecondActivity extends AppCompatActivity {
 
-    String name;
-    TextView tvData;
-    Button btn;
-    ArrayList<Lecture> LectureList=null;
+    private String name;
+    private TextView tvData;
+    private Button btn;
+    private String mJsonString;
 
     String SERVER = "http://192.249.19.252:1780/students/";
 
@@ -50,57 +51,11 @@ public class SecondActivity extends AppCompatActivity {
                 // 데이터 요청 , 변수 json 에 저장.
                 HttpGetRequest request = new HttpGetRequest();
                 request.execute();
-                jsonParsing(tvData.getText().toString());
             }
         });
     }
 
-    // json 파싱
-    private void jsonParsing(String json) {
-        try {
-            // json 을 JSONArray 로 형변환
-            JSONArray jsonArray = new JSONArray(json);
 
-
-            for (int i = 0; i<jsonArray.length(); i++) {
-
-                JSONObject lectureObject = jsonArray.getJSONObject(i);
-
-                Lecture lecture = new Lecture();
-                lecture.setCode(lectureObject.getString("lecture"));
-                lecture.setClassroom(lectureObject.getString("classroom"));
-
-                LectureList.add(lecture);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            System.out.println("틀림!");
-        }
-    }
-
-    // Lecture 클래스.
-    public class Lecture {
-        private String code;
-        private String classroom;
-
-        public String getCode() {
-            return code;
-        }
-
-        public String getClassroom() {
-            return classroom;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public void setClassroom(String classroom) {
-            this.classroom = classroom;
-        }
-
-    }
 
     // 웹서버에서 사용자 수강과목 JSONArray 데이터 가져와주는 클래스
     public class HttpGetRequest extends AsyncTask<Void, Void, String> {
@@ -142,10 +97,16 @@ public class SecondActivity extends AppCompatActivity {
             return op;
         }
 
-        // 가져온 데이터 tvData 텍스뷰에 뿌
+        // 가져온 데이터 tvData 텍스트 뷰에 뿌림
         protected void onPostExecute(String result){
             super.onPostExecute(result);
             tvData.setText(result);
+            if (result!=null) {
+                mJsonString = result;
+                Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
+                intent.putExtra("json", tvData.getText().toString());
+                startActivity(intent);
+            }
         }
     }
 
