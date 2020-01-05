@@ -2,57 +2,107 @@ package com.example.attcheck;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class SecondActivity extends AppCompatActivity {
 
     String name;
     TextView tvData;
-    ProgressDialog pd;
+    Button btn;
+    ArrayList<Lecture> LectureList=null;
 
-    String SERVER = "http://192.249.19.252:1780/students";
+    String SERVER = "http://192.249.19.252:1780/students/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-//        TextView tx = (TextView) findViewById(R.id.textView);
-        tvData = (TextView) findViewById(R.id.tvdata);
-        Button btn = (Button)findViewById(R.id.httpTest);
+        init();
 
+        // MainActivity 로부터 사용자 이름 가져옴.
         Intent intent = getIntent();
-
         name = intent.getExtras().getString("name");
-//        tx.setText(name);
+
+        // 서버 url 에 사용자 이름 추가
+        SERVER = SERVER + name;
+
+        // 버튼 클릭시 웹서버로 부터 JSONArray 가져옴.
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 데이터 요청 , 변수 json 에 저장.
                 HttpGetRequest request = new HttpGetRequest();
                 request.execute();
+                jsonParsing(tvData.getText().toString());
             }
         });
+    }
+
+    // json 파싱
+    private void jsonParsing(String json) {
+        try {
+            // json 을 JSONArray 로 형변환
+            JSONArray jsonArray = new JSONArray(json);
+
+
+            for (int i = 0; i<jsonArray.length(); i++) {
+
+                JSONObject lectureObject = jsonArray.getJSONObject(i);
+
+                Lecture lecture = new Lecture();
+                lecture.setCode(lectureObject.getString("lecture"));
+                lecture.setClassroom(lectureObject.getString("classroom"));
+
+                LectureList.add(lecture);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("틀림!");
+        }
+    }
+
+    // Lecture 클래스.
+    public class Lecture {
+        private String code;
+        private String classroom;
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getClassroom() {
+            return classroom;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public void setClassroom(String classroom) {
+            this.classroom = classroom;
+        }
 
     }
 
+    // 웹서버에서 사용자 수강과목 JSONArray 데이터 가져와주는 클래스
     public class HttpGetRequest extends AsyncTask<Void, Void, String> {
 
         static final String REQUEST_METHOD = "GET";
@@ -92,9 +142,16 @@ public class SecondActivity extends AppCompatActivity {
             return op;
         }
 
+        // 가져온 데이터 tvData 텍스뷰에 뿌
         protected void onPostExecute(String result){
             super.onPostExecute(result);
             tvData.setText(result);
         }
     }
+
+    public void init(){
+        tvData = (TextView) findViewById(R.id.tvdata);
+        btn = (Button)findViewById(R.id.httpTest);
+    }
+
 }
