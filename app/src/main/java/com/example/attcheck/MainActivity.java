@@ -3,11 +3,14 @@ package com.example.attcheck;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -72,19 +75,49 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Name = findViewById(R.id.editText4);
-                id = findViewById(R.id.editText2);
-                pw = findViewById(R.id.editText3);
 
-                in_name = Name.getText().toString();
-                in_student_id = id.getText().toString();
-                in_password = pw.getText().toString();
+
+
+    }
+
+    public void OnClickHandler(View view) {
+
+        View dialogView = getLayoutInflater().inflate(R.layout.register_layout, null);
+
+        final EditText NewName = (EditText) dialogView.findViewById(R.id.tv2);
+        final EditText NewID = (EditText) dialogView.findViewById(R.id.tv4);
+        final EditText NewPW = (EditText) dialogView.findViewById(R.id.tv6);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+
+
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                in_name = NewName.getText().toString();
+                in_student_id = NewID.getText().toString();
+                in_password = NewPW.getText().toString();
+
                 new HttpPostRequest().execute(SERVER);
+
             }
         });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(getApplicationContext(), "Cancel Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
     }
 
     // 웹서버에서 사용자 수강과목 JSONArray 데이터 가져와주는 클래스
