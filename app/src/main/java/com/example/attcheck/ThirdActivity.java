@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,8 +65,10 @@ public class ThirdActivity extends AppCompatActivity {
 
     }
 
+
     public void init(){
         tv = (TextView) findViewById(R.id.studentName);
+        tv.setTypeface(null, Typeface.BOLD);
         st_id = findViewById(R.id.studentID);
     }
 
@@ -158,7 +161,8 @@ public class ThirdActivity extends AppCompatActivity {
             //ViewHolder가 관리하는 View에 position에 해당하는 데이터 바인딩
             String temp_lecture = myDataList.get(position).getCode();
             viewHolder.TopText.setText(temp_lecture + " : " + LectureMap.get(temp_lecture));
-            viewHolder.BottomText.setText(myDataList.get(position).getClassroom() + "    " + TimeMap.get(temp_lecture));
+            viewHolder.BottomText_classroom.setText("강의실 : " + myDataList.get(position).getClassroom());
+            viewHolder.BottomText_time.setText("강의 시간 : " +TimeMap.get(temp_lecture));
 
         }
 
@@ -172,14 +176,16 @@ public class ThirdActivity extends AppCompatActivity {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView TopText;
-        TextView BottomText;
+        TextView BottomText_classroom;
+        TextView BottomText_time;
 
         ViewHolder(View itemView)
         {
             super(itemView);
 
             TopText = itemView.findViewById(R.id.topText);
-            BottomText = itemView.findViewById(R.id.bottomText);
+            BottomText_classroom = itemView.findViewById(R.id.bottomText_classroom);
+            BottomText_time = itemView.findViewById(R.id.bottomText_time);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -199,11 +205,10 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void initMap(){
         LectureMap.put("CS496", " Mad Camp ");
-        TimeMap.put("CS496", "Everyday : 20:30 - 22:00 ");
+        TimeMap.put("CS496", "Everyday | 20:30 ~ 22:00 ");
         LectureMap.put("CS320", " Programming Language");
-        TimeMap.put("CS320", " Mon/Wed : 14:30 - 16:00 ");
+        TimeMap.put("CS320", " Mon/Wed | 14:30 ~ 16:00 ");
     }
-
 
 
 }

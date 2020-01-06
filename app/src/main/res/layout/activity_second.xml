@@ -33,14 +33,24 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:fontFamily="@font/nanumgothic"
-        android:text="TextView"
+        android:gravity="center_horizontal"
+        android:text="로그아웃 하시겠습니까?"
+        android:layout_marginTop="30dp"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanumgothic"
+        android:gravity="center_horizontal"
+        android:text="로그아웃 하시려면 뒤로가기를 눌러주세요"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
 
 </LinearLayout>
