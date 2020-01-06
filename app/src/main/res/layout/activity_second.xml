@@ -16,25 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="None"
+        android:visibility="invisible"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/studentIDText"
-        android:layout_marginLeft="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nanumgothic"
-        android:text="20160255"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/httpTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="2020년 1학기" />
 
     <TextView
         android:id="@+id/tvdata"
@@ -46,6 +30,17 @@
         android:visibility="invisible"
         android:textColor="@color/white"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanumgothic"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
 
 
 </LinearLayout>

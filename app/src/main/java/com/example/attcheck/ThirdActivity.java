@@ -199,7 +199,9 @@ public class ThirdActivity extends AppCompatActivity {
 
     public void initMap(){
         LectureMap.put("CS496", " Mad Camp ");
-        TimeMap.put("CS496", " 09:00 - ??:?? ");
+        TimeMap.put("CS496", "Everyday : 20:30 - 22:00 ");
+        LectureMap.put("CS320", " Programming Language");
+        TimeMap.put("CS320", " Mon/Wed : 14:30 - 16:00 ");
     }
 
 

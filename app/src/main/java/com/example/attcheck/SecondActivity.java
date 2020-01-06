@@ -45,14 +45,9 @@ public class SecondActivity extends AppCompatActivity {
         SERVER = SERVER + name;
 
         // 버튼 클릭시 웹서버로 부터 JSONArray 가져옴.
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 데이터 요청 , 변수 json 에 저장.
-                HttpGetRequest request = new HttpGetRequest();
-                request.execute();
-            }
-        });
+
+        HttpGetRequest request = new HttpGetRequest();
+        request.execute();
     }
 
 
@@ -112,9 +107,8 @@ public class SecondActivity extends AppCompatActivity {
 
     public void init(){
         tvData = (TextView) findViewById(R.id.tvdata);
-        btn = (Button)findViewById(R.id.httpTest);
         NameText = (TextView) findViewById(R.id.nameText);
-        IdText = (TextView) findViewById(R.id.studentIDText);
+
     }
 
 
