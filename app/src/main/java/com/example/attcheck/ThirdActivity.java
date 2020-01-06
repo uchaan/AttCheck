@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 public class ThirdActivity extends AppCompatActivity {
 
     private TextView tv;
+    private TextView st_id;
     private String data;
     private ArrayList<Lecture> LectureList= new ArrayList<>();
 
@@ -38,6 +40,8 @@ public class ThirdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_third);
 
         initMap();
@@ -49,7 +53,8 @@ public class ThirdActivity extends AppCompatActivity {
         jsonParsing();
 
         if (data != null) {
-            tv.setText(id+"  "+name);
+            tv.setText(name);
+            st_id.setText(id);
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
@@ -60,7 +65,8 @@ public class ThirdActivity extends AppCompatActivity {
     }
 
     public void init(){
-        tv = (TextView) findViewById(R.id.studentID);
+        tv = (TextView) findViewById(R.id.studentName);
+        st_id = findViewById(R.id.studentID);
     }
 
     // json 파싱

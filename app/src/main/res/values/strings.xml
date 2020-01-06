@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AttCheck</string>
+    <string name="app_name">Face ID</string>
     <string name="facebook_app_id">514635632480099</string>
     <string name="fb_login_protocol_scheme">fb514635632480099</string>
 
