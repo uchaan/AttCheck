@@ -16,20 +16,30 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     String in_student_id;
-    String in_password;
+    String in_password, in_name;
     String right_student_id;
+    String right_name;
     String right_password;
     String name;
     String SERVER ;
+    String loginSERVER;
+
+    EditText id, pw, Name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +47,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button button = findViewById(R.id.button);
+
+        SERVER = "http://192.249.19.252:1780/logins/";
+
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //클릭하면 사용자 입력 정보 in 으로 받아옴
-                SERVER = "http://192.249.19.252:1780/logins/";
-                EditText id = findViewById(R.id.editText2);
-                EditText pw = findViewById(R.id.editText3);
+
+                id = findViewById(R.id.editText2);
+                pw = findViewById(R.id.editText3);
+
                 in_student_id = id.getText().toString();
                 in_password = pw.getText().toString();
-                SERVER = SERVER + in_student_id;
+                loginSERVER = SERVER + in_student_id;
                 //서버에 id 요청
                 HttpGetRequest request = new HttpGetRequest();
                 request.execute();
 
+            }
+        });
+
+        Button button2 = findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Name = findViewById(R.id.editText4);
+                id = findViewById(R.id.editText2);
+                pw = findViewById(R.id.editText3);
+
+                in_name = Name.getText().toString();
+                in_student_id = id.getText().toString();
+                in_password = pw.getText().toString();
+                new HttpPostRequest().execute(SERVER);
             }
         });
     }
@@ -69,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 // connect to the server
-                URL myUrl = new URL(SERVER);
+                URL myUrl = new URL(loginSERVER);
                 HttpURLConnection connection =(HttpURLConnection) myUrl.openConnection();
                 Log.d("t", "------------------------------" + SERVER);
                 connection.setRequestMethod(REQUEST_METHOD);
@@ -105,26 +134,102 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(result);
                 right_student_id = jsonArray.getJSONObject(0).getString("student_id");
                 right_password = jsonArray.getJSONObject(0).getString("password");
-                if(right_password.equals(in_password)){
+
+                if(right_password.equals(in_password) && in_student_id.equals(right_student_id)){
                     Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                     name = jsonArray.getJSONObject(0).getString("name");
                     Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
                     intent.putExtra("name", name);
                     startActivity(intent);
 
-
-
-                } else if ( !right_student_id.equals(in_student_id)) {
-                    Toast.makeText(getApplicationContext(), "잘못된 id 입니", Toast.LENGTH_SHORT).show();
-                }
-
-                else Toast.makeText(getApplicationContext(), "pw를 확인하세요.", Toast.LENGTH_SHORT).show();
+                } else Toast.makeText(getApplicationContext(), "틀림", Toast.LENGTH_SHORT).show();
 
             } catch (JSONException e){
                 //핸들해줘요
             }
         }
 
+    }
+
+    public class HttpPostRequest extends AsyncTask<String, String, String>{
+
+        @Override
+        protected String doInBackground(String... urls) {
+            try {
+                //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.accumulate("student_id", in_student_id);
+                jsonObject.accumulate("password", in_password);
+                jsonObject.accumulate("name", in_name);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try{
+                    URL url = new URL(SERVER);
+                    //연결을 함
+                    con = (HttpURLConnection) url.openConnection();
+
+                    con.setRequestMethod("POST");//POST방식으로 보냄
+                    con.setRequestProperty("Cache-Control", "no-cache");//캐시 설정
+                    con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
+
+
+                    con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
+                    con.setDoOutput(true);//Outstream으로 post 데이터를 넘겨주겠다는 의미
+                    con.setDoInput(true);//Inputstream으로 서버로부터 응답을 받겠다는 의미
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuffer buffer = new StringBuffer();
+
+                    String line = "";
+                    while((line = reader.readLine()) != null){
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();//서버로 부터 받은 값을 리턴해줌 아마 OK!!가 들어올것임
+
+                } catch (MalformedURLException e){
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if(con != null){
+                        con.disconnect();
+                    }
+                    try {
+                        if(reader != null){
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Toast.makeText(getApplicationContext(), "등록 완료 ", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
