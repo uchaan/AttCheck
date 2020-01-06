@@ -39,20 +39,21 @@ public class ThirdActivity extends AppCompatActivity {
         Intent intent = getIntent();
         data = intent.getExtras().getString("json");
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-
         jsonParsing();
 
         if (data != null) {
             tv.setText(id+"  "+name);
         }
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(manager); // LayoutManager 등록
+        recyclerView.setAdapter(new MyAdapter(LectureList));  // Adapter 등록
+
     }
 
     public void init(){
         tv = (TextView) findViewById(R.id.studentID);
-//        recyclerView = findViewById(R.id.recycler);
     }
 
     // json 파싱
@@ -102,11 +103,10 @@ public class ThirdActivity extends AppCompatActivity {
         }
 
     }
-    /*
 
-    public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-        private ArrayList<Lecture> myDataList = new ArrayList<>();
+        private ArrayList<Lecture> myDataList = null;
 
         MyAdapter(ArrayList<Lecture> dataList)
         {
@@ -114,24 +114,24 @@ public class ThirdActivity extends AppCompatActivity {
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             Context context = parent.getContext();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             //전개자(Inflater)를 통해 얻은 참조 객체를 통해 뷰홀더 객체 생성
-            View view = inflater.inflate(R.layout.activity_third, parent, false);
-            RecyclerView.ViewHolder viewHolder = new RecyclerView.ViewHolder(view);
+            View view = inflater.inflate(R.layout.recyclerview_item, parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
 
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
+        public void onBindViewHolder(ViewHolder viewHolder, int position)
         {
             //ViewHolder가 관리하는 View에 position에 해당하는 데이터 바인딩
-            viewHolder.title.setText(myDataList.get(position).getMovieTitle());
-            viewHolder.grade.setText(myDataList.get(position).getMovieGrade());
+            viewHolder.TopText.setText(myDataList.get(position).getCode());
+            viewHolder.BottomText.setText(myDataList.get(position).getClassroom());
 
         }
 
@@ -143,5 +143,19 @@ public class ThirdActivity extends AppCompatActivity {
         }
     }
 
-     */
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView TopText;
+        TextView BottomText;
+
+        ViewHolder(View itemView)
+        {
+            super(itemView);
+
+            TopText = itemView.findViewById(R.id.topText);
+            BottomText = itemView.findViewById(R.id.bottomText);
+        }
+    }
+
+
+
 }
