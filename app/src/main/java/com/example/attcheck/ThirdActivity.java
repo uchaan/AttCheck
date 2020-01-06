@@ -74,14 +74,15 @@ public class ThirdActivity extends AppCompatActivity {
             for (int i = 0; i<jsonArray.length(); i++) {
 
                 JSONObject lectureObject = jsonArray.getJSONObject(i);
+                String lectureCode = lectureObject.getString("lecture");
 
                 // ClassList 에 없으면, ClassList 에 추가 후 Lecture 클래스 만들어서 LectureList 에 추가.
-                if (! ClassList.contains( lectureObject.getString("lecture") )) {
+                if (! ClassList.contains(lectureCode)) {
 
-                    ClassList.add( lectureObject.getString("lecture") );
+                    ClassList.add( lectureCode );
 
                     Lecture lecture = new Lecture();
-                    lecture.setCode(lectureObject.getString("lecture"));
+                    lecture.setCode( lectureCode );
                     lecture.setClassroom(lectureObject.getString("classroom"));
 
                     LectureList.add(lecture);

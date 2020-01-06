@@ -1,9 +1,15 @@
 package com.example.attcheck;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -32,6 +38,13 @@ public class FourthActivity extends AppCompatActivity {
 
         dataT.setText(data);
         lectureT.setText(lecture);
+
+        jsonParsing();
+
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(manager); // LayoutManager 등록
+        recyclerView.setAdapter(new mAdapter(AttendaceList));  // Adapter 등록
 
 
     }
@@ -72,9 +85,6 @@ public class FourthActivity extends AppCompatActivity {
 
                     AttendaceList.add(attendace);
                 }
-
-
-
             }
 
         } catch (JSONException e) {
@@ -86,5 +96,56 @@ public class FourthActivity extends AppCompatActivity {
     public void init(){
         lectureT = findViewById(R.id.lecture);
         dataT = findViewById(R.id.data);
+    }
+
+    public class mAdapter extends RecyclerView.Adapter<mViewHolder> {
+
+        private ArrayList< Attendance > myDataList = null;
+
+        mAdapter(ArrayList<Attendance> dataList)
+        {
+            myDataList = dataList;
+        }
+
+        @Override
+        public mViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            Context context = parent.getContext();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            //전개자(Inflater)를 통해 얻은 참조 객체를 통해 뷰홀더 객체 생성
+            View view = inflater.inflate(R.layout.recyclerview_item2, parent, false);
+            mViewHolder viewHolder = new mViewHolder(view);
+
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(mViewHolder viewHolder, int position)
+        {
+            //ViewHolder가 관리하는 View에 position에 해당하는 데이터 바인딩
+            viewHolder.dayT.setText(myDataList.get(position).getDay());
+            viewHolder.atdT.setText(myDataList.get(position).getAtd_check());
+
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            //Adapter가 관리하는 전체 데이터 개수 반환
+            return myDataList.size();
+        }
+    }
+
+    public class mViewHolder extends RecyclerView.ViewHolder{
+        TextView dayT, atdT;
+
+        mViewHolder(View itemView)
+        {
+            super(itemView);
+            dayT = itemView.findViewById(R.id.day);
+            atdT = itemView.findViewById(R.id.atd_check);
+
+        }
     }
 }
