@@ -19,12 +19,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 public class ThirdActivity extends AppCompatActivity {
 
     private TextView tv;
     private String data;
     private ArrayList<Lecture> LectureList= new ArrayList<>();
+
+
     RecyclerView recyclerView;
     private String name;
     private String id;
@@ -64,15 +67,27 @@ public class ThirdActivity extends AppCompatActivity {
             name = jsonArray.getJSONObject(0).getString("name");
             id = jsonArray.getJSONObject(0).getString("student_id");
 
+            // ClassList: 이미 lectureList 에 있는지 확인하기 위한 리스트
+            ArrayList<String> ClassList = new ArrayList<>();
+
+
             for (int i = 0; i<jsonArray.length(); i++) {
 
                 JSONObject lectureObject = jsonArray.getJSONObject(i);
 
-                Lecture lecture = new Lecture();
-                lecture.setCode(lectureObject.getString("lecture"));
-                lecture.setClassroom(lectureObject.getString("classroom"));
+                // ClassList 에 없으면, ClassList 에 추가 후 Lecture 클래스 만들어서 LectureList 에 추가.
+                if (! ClassList.contains( lectureObject.getString("lecture") )) {
 
-                LectureList.add(lecture);
+                    ClassList.add( lectureObject.getString("lecture") );
+
+                    Lecture lecture = new Lecture();
+                    lecture.setCode(lectureObject.getString("lecture"));
+                    lecture.setClassroom(lectureObject.getString("classroom"));
+
+                    LectureList.add(lecture);
+
+                }
+
             }
 
         } catch (JSONException e) {
@@ -89,7 +104,6 @@ public class ThirdActivity extends AppCompatActivity {
         public String getCode() {
             return code;
         }
-
         public String getClassroom() {
             return classroom;
         }
@@ -97,12 +111,12 @@ public class ThirdActivity extends AppCompatActivity {
         public void setCode(String code) {
             this.code = code;
         }
-
         public void setClassroom(String classroom) {
             this.classroom = classroom;
         }
 
     }
+
 
     public class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -153,6 +167,20 @@ public class ThirdActivity extends AppCompatActivity {
 
             TopText = itemView.findViewById(R.id.topText);
             BottomText = itemView.findViewById(R.id.bottomText);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Lecture selectedLecture = LectureList.get(pos);
+                        Intent intent2 = new Intent(getApplicationContext(), FourthActivity.class);
+                        intent2.putExtra("lecture", selectedLecture.getCode());
+                        intent2.putExtra("json", data);
+                        startActivity(intent2);
+                    }
+                }
+            });
         }
     }
 
