@@ -7,7 +7,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FourthActivity extends AppCompatActivity {
 
@@ -27,13 +31,20 @@ public class FourthActivity extends AppCompatActivity {
     private String lecture;
     private TextView lectureT;
 
+    public HashMap<String, String> LectureMap = new HashMap<>();
+    public HashMap<String, String> TimeMap = new HashMap<>();
+    public HashMap<String, String> ProfMap = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_fourth);
+        getSupportActionBar().setIcon(R.drawable.tt2);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+        initMap();
 
         Intent intent = getIntent();
         data = intent.getExtras().getString("json");
@@ -41,7 +52,19 @@ public class FourthActivity extends AppCompatActivity {
 
         init();
 
-        lectureT.setText(lecture+ "   Attendance");
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        lectureT.setText(lecture + " : " + LectureMap.get(lecture));
+        lectureT.setTypeface(null, Typeface.BOLD);
+
+        TextView textView6 = findViewById(R.id.textView6);
+        textView6.setText(TimeMap.get(lecture));
+        TextView textView7 = findViewById(R.id.textView7);
+        textView7.setText(ProfMap.get(lecture));
 
         jsonParsing();
 
@@ -134,8 +157,16 @@ public class FourthActivity extends AppCompatActivity {
         public void onBindViewHolder(mViewHolder viewHolder, int position)
         {
             //ViewHolder가 관리하는 View에 position에 해당하는 데이터 바인딩
-            viewHolder.dayT.setText("     "+ myDataList.get(position).getDay()+"              ");
-            viewHolder.atdT.setText(myDataList.get(position).getAtd_check());
+            viewHolder.dayT.setText(myDataList.get(position).getDay());
+            if(myDataList.get(position).getAtd_check().equals("N")){
+                viewHolder.atdT.setText("결석");
+            } else if(myDataList.get(position).getAtd_check().equals("Y")){
+                viewHolder.atdT.setText("출석");
+            } else if(myDataList.get(position).getAtd_check().equals("L")){
+                viewHolder.atdT.setText("지각");
+            }else {
+                viewHolder.atdT.setText("   -");
+            }
 
         }
 
@@ -155,7 +186,14 @@ public class FourthActivity extends AppCompatActivity {
             super(itemView);
             dayT = itemView.findViewById(R.id.day);
             atdT = itemView.findViewById(R.id.atd_check);
-
         }
+    }
+    public void initMap(){
+        LectureMap.put("CS496", "Mad Camp");
+        TimeMap.put("CS496", "Everyday | 20:30 ~ 22:00 ");
+        LectureMap.put("CS320", "Programming Language");
+        TimeMap.put("CS320", " Mon/Wed | 14:30 ~ 16:00 ");
+        ProfMap.put("CS496", "장병규 교수, 류석영 교수");
+        ProfMap.put("CS320", "류석영 교수");
     }
 }

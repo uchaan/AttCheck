@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setIcon(R.drawable.tt2);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
@@ -177,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
                     intent.putExtra("name", name);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
                 } else Toast.makeText(getApplicationContext(), "틀림", Toast.LENGTH_SHORT).show();
 

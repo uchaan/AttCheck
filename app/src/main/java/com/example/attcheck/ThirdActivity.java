@@ -44,7 +44,8 @@ public class ThirdActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_third);
-
+        getSupportActionBar().setIcon(R.drawable.tt2);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initMap();
         init();
 
@@ -197,6 +198,7 @@ public class ThirdActivity extends AppCompatActivity {
                         intent2.putExtra("lecture", selectedLecture.getCode());
                         intent2.putExtra("json", data);
                         startActivity(intent2);
+                        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                     }
                 }
             });

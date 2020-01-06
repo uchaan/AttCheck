@@ -33,6 +33,8 @@ public class SecondActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_second);
+        getSupportActionBar().setIcon(R.drawable.tt2);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         init();
 
@@ -101,6 +103,7 @@ public class SecondActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
                 intent.putExtra("json", tvData.getText().toString());
                 startActivity(intent);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             }
         }
     }

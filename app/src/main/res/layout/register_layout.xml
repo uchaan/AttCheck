@@ -4,49 +4,55 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp">
 
-
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
+        android:gravity="left">
         <TextView
             android:layout_marginLeft="30dp"
+            android:layout_marginRight="25dp"
             android:id="@+id/tv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NAME  " />
 
+
         <EditText
             android:id="@+id/tv2"
-            android:layout_width="280dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="20dp"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
+        android:gravity="left">
         <TextView
             android:layout_marginLeft="30dp"
             android:id="@+id/tv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ID  " />
+            android:text="ID  "
+            android:layout_marginRight="50dp"/>
 
         <EditText
             android:id="@+id/tv4"
-            android:layout_width="300dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="30dp"/>
 
     </LinearLayout>
 
@@ -54,21 +60,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
+        android:gravity="left">
         <TextView
             android:layout_marginLeft="30dp"
             android:id="@+id/tv5"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:text="PW  " />
+            android:text="PW  "
+            android:layout_marginRight="40dp"/>
 
         <EditText
             android:id="@+id/tv6"
-            android:layout_width="300dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="30dp"/>
 
     </LinearLayout>
 
