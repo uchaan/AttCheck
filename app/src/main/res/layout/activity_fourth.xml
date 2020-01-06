@@ -8,16 +8,15 @@
     tools:context=".FourthActivity">
 
     <TextView
+        android:layout_marginTop="8dp"
         android:id="@+id/lecture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:fontFamily="@font/nanumgothic"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
 
 
     <androidx.recyclerview.widget.RecyclerView

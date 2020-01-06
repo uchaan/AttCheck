@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class ThirdActivity extends AppCompatActivity {
 
@@ -27,6 +28,8 @@ public class ThirdActivity extends AppCompatActivity {
     private String data;
     private ArrayList<Lecture> LectureList= new ArrayList<>();
 
+    public HashMap<String, String> LectureMap = new HashMap<>();
+    public HashMap<String, String> TimeMap = new HashMap<>();
 
     RecyclerView recyclerView;
     private String name;
@@ -37,6 +40,7 @@ public class ThirdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
 
+        initMap();
         init();
 
         Intent intent = getIntent();
@@ -144,9 +148,11 @@ public class ThirdActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position)
         {
+
             //ViewHolder가 관리하는 View에 position에 해당하는 데이터 바인딩
-            viewHolder.TopText.setText(myDataList.get(position).getCode());
-            viewHolder.BottomText.setText(myDataList.get(position).getClassroom());
+            String temp_lecture = myDataList.get(position).getCode();
+            viewHolder.TopText.setText(temp_lecture + " : " + LectureMap.get(temp_lecture));
+            viewHolder.BottomText.setText(myDataList.get(position).getClassroom() + "    " + TimeMap.get(temp_lecture));
 
         }
 
@@ -183,6 +189,11 @@ public class ThirdActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void initMap(){
+        LectureMap.put("CS496", " Mad Camp ");
+        TimeMap.put("CS496", " 09:00 - ??:?? ");
     }
 
 

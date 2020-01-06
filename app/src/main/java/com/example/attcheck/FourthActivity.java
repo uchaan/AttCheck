@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 public class FourthActivity extends AppCompatActivity {
 
-    private ArrayList<Attendance> AttendaceList = new ArrayList<>();
+    private ArrayList<Attendance> AttendanceList = new ArrayList<>();
     private String data;
     private String lecture;
-    private TextView lectureT, dataT;
+    private TextView lectureT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +36,14 @@ public class FourthActivity extends AppCompatActivity {
 
         init();
 
-        dataT.setText(data);
-        lectureT.setText(lecture);
+        lectureT.setText(lecture+ "   Attendance");
 
         jsonParsing();
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(manager); // LayoutManager 등록
-        recyclerView.setAdapter(new mAdapter(AttendaceList));  // Adapter 등록
+        recyclerView.setAdapter(new mAdapter(AttendanceList));  // Adapter 등록
 
 
     }
@@ -83,7 +82,7 @@ public class FourthActivity extends AppCompatActivity {
                     attendace.setDay( attendanceObject.getString("day"));
                     attendace.setAtd_check( attendanceObject.getString("atd_check"));
 
-                    AttendaceList.add(attendace);
+                    AttendanceList.add(attendace);
                 }
             }
 
@@ -95,7 +94,6 @@ public class FourthActivity extends AppCompatActivity {
 
     public void init(){
         lectureT = findViewById(R.id.lecture);
-        dataT = findViewById(R.id.data);
     }
 
     public class mAdapter extends RecyclerView.Adapter<mViewHolder> {
@@ -124,7 +122,7 @@ public class FourthActivity extends AppCompatActivity {
         public void onBindViewHolder(mViewHolder viewHolder, int position)
         {
             //ViewHolder가 관리하는 View에 position에 해당하는 데이터 바인딩
-            viewHolder.dayT.setText(myDataList.get(position).getDay());
+            viewHolder.dayT.setText("     "+ myDataList.get(position).getDay()+"              ");
             viewHolder.atdT.setText(myDataList.get(position).getAtd_check());
 
         }
