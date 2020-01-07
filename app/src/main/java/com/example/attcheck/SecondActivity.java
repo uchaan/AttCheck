@@ -21,9 +21,9 @@ public class SecondActivity extends AppCompatActivity {
     private String name;
     private TextView tvData;
     private TextView NameText;
-    private TextView IdText;
-    private Button btn;
-    private String mJsonString;
+    private Button NextButton;
+
+
 
     String SERVER = "http://192.249.19.252:1780/students/";
 
@@ -33,8 +33,6 @@ public class SecondActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_second);
-        getSupportActionBar().setIcon(R.drawable.tt2);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         init();
 
@@ -48,8 +46,17 @@ public class SecondActivity extends AppCompatActivity {
 
         // 버튼 클릭시 웹서버로 부터 JSONArray 가져옴.
 
-        HttpGetRequest request = new HttpGetRequest();
-        request.execute();
+        NextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                HttpGetRequest request = new HttpGetRequest();
+                request.execute();
+
+            }
+        });
+
+
     }
 
 
@@ -99,7 +106,6 @@ public class SecondActivity extends AppCompatActivity {
             super.onPostExecute(result);
             tvData.setText(result);
             if (result!=null) {
-                mJsonString = result;
                 Intent intent = new Intent(getApplicationContext(), ThirdActivity.class);
                 intent.putExtra("json", tvData.getText().toString());
                 startActivity(intent);
@@ -109,8 +115,13 @@ public class SecondActivity extends AppCompatActivity {
     }
 
     public void init(){
+
+        getSupportActionBar().setIcon(R.drawable.tt2);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         tvData = (TextView) findViewById(R.id.tvdata);
         NameText = (TextView) findViewById(R.id.nameText);
+        NextButton = (Button) findViewById(R.id.button3);
 
     }
 

@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -21,13 +19,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.io.Serializable;
 import java.util.HashMap;
 
 public class ThirdActivity extends AppCompatActivity {
 
-    private TextView tv;
-    private TextView st_id;
+    private TextView tv, st_id;
     private String data;
     private ArrayList<Lecture> LectureList= new ArrayList<>();
 
@@ -35,8 +31,7 @@ public class ThirdActivity extends AppCompatActivity {
     public HashMap<String, String> TimeMap = new HashMap<>();
 
     RecyclerView recyclerView;
-    private String name;
-    private String id;
+    private String name, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +39,9 @@ public class ThirdActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_third);
-        getSupportActionBar().setIcon(R.drawable.tt2);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        initMap();
+
         init();
+        initMap();
 
         Intent intent = getIntent();
         data = intent.getExtras().getString("json");
@@ -64,13 +58,6 @@ public class ThirdActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager); // LayoutManager 등록
         recyclerView.setAdapter(new MyAdapter(LectureList));  // Adapter 등록
 
-    }
-
-
-    public void init(){
-        tv = (TextView) findViewById(R.id.studentName);
-        tv.setTypeface(null, Typeface.BOLD);
-        st_id = findViewById(R.id.studentID);
     }
 
     // json 파싱
@@ -158,13 +145,11 @@ public class ThirdActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position)
         {
-
             //ViewHolder가 관리하는 View에 position에 해당하는 데이터 바인딩
             String temp_lecture = myDataList.get(position).getCode();
             viewHolder.TopText.setText(temp_lecture + " : " + LectureMap.get(temp_lecture));
             viewHolder.BottomText_classroom.setText("강의실 : " + myDataList.get(position).getClassroom());
             viewHolder.BottomText_time.setText("강의 시간 : " +TimeMap.get(temp_lecture));
-
         }
 
         @Override
@@ -210,6 +195,15 @@ public class ThirdActivity extends AppCompatActivity {
         TimeMap.put("CS496", "Everyday | 20:30 ~ 22:00 ");
         LectureMap.put("CS320", " Programming Language");
         TimeMap.put("CS320", " Mon/Wed | 14:30 ~ 16:00 ");
+    }
+
+    public void init(){
+        getSupportActionBar().setIcon(R.drawable.tt2);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        tv = (TextView) findViewById(R.id.studentName);
+        tv.setTypeface(null, Typeface.BOLD);
+        st_id = findViewById(R.id.studentID);
     }
 
 

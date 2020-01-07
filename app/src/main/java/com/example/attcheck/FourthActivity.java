@@ -7,10 +7,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +25,7 @@ import java.util.HashMap;
 public class FourthActivity extends AppCompatActivity {
 
     private ArrayList<Attendance> AttendanceList = new ArrayList<>();
-    private String data;
-    private String lecture;
+    private String data, lecture;
     private TextView lectureT;
 
     public HashMap<String, String> LectureMap = new HashMap<>();
@@ -41,9 +38,12 @@ public class FourthActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_fourth);
+
         getSupportActionBar().setIcon(R.drawable.tt2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
+
         initMap();
 
         Intent intent = getIntent();
