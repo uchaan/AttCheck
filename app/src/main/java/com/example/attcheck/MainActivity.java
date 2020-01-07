@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
                     intent.putExtra("name", name);
                     intent.putExtra("student_id", right_student_id);
-//                    intent.putExtra("email", jsonArray.getJSONObject(0).getString("email"));
+                    intent.putExtra("email", jsonArray.getJSONObject(0).getString("email"));
                     startActivity(intent);
                     overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
