@@ -193,7 +193,7 @@ public class FourthActivity extends AppCompatActivity {
         TimeMap.put("CS496", "Everyday | 20:30 ~ 22:00 ");
         LectureMap.put("CS320", "Programming Language");
         TimeMap.put("CS320", " Mon/Wed | 14:30 ~ 16:00 ");
-        ProfMap.put("CS496", "장병규 교수, 류석영 교수");
+        ProfMap.put("CS496", "류석영 교수");
         ProfMap.put("CS320", "류석영 교수");
     }
 }
