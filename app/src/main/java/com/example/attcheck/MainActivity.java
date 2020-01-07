@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setIcon(R.drawable.tt2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

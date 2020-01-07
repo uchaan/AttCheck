@@ -40,6 +40,8 @@ public class ThirdActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_third);
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         init();
         initMap();
 

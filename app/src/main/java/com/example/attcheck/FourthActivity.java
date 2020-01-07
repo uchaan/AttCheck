@@ -41,6 +41,7 @@ public class FourthActivity extends AppCompatActivity {
 
         getSupportActionBar().setIcon(R.drawable.tt2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         final SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe);
 
