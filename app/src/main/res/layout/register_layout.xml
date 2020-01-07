@@ -79,4 +79,28 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="left">
+
+        <TextView
+            android:id="@+id/tv7"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:text="Email  " />
+
+        <EditText
+            android:id="@+id/tv8"
+            android:layout_width="238dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
+
+    </LinearLayout>
+
 </LinearLayout>

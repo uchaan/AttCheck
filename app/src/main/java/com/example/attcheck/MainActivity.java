@@ -8,14 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -34,28 +31,30 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    String in_student_id;
-    String in_password, in_name;
-    String right_student_id;
-    String right_name;
-    String right_password;
+    String in_student_id, in_password, in_name, in_email;
+    String right_student_id, right_password;
+
     String name;
+
     String SERVER ;
     String loginSERVER;
 
-    EditText id, pw, Name;
+    EditText id, pw;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getSupportActionBar().setIcon(R.drawable.tt2);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button);
+        button = findViewById(R.id.button);
 
         SERVER = "http://192.249.19.252:1780/logins/";
 
@@ -79,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button button2 = findViewById(R.id.button2);
 
-
-
     }
 
+    // 회원가입 버튼 클릭핸들러
     public void OnClickHandler(View view) {
 
         View dialogView = getLayoutInflater().inflate(R.layout.register_layout, null);
@@ -90,11 +88,10 @@ public class MainActivity extends AppCompatActivity {
         final EditText NewName = (EditText) dialogView.findViewById(R.id.tv2);
         final EditText NewID = (EditText) dialogView.findViewById(R.id.tv4);
         final EditText NewPW = (EditText) dialogView.findViewById(R.id.tv6);
+        final EditText NewEmail = (EditText) dialogView.findViewById(R.id.tv8);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView);
-
-
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -103,8 +100,15 @@ public class MainActivity extends AppCompatActivity {
                 in_name = NewName.getText().toString();
                 in_student_id = NewID.getText().toString();
                 in_password = NewPW.getText().toString();
+                in_email = NewEmail.getText().toString();
 
-                new HttpPostRequest().execute(SERVER);
+                if (in_name.equals("")||in_student_id.equals("")||in_password.equals("")||in_email.equals("")){
+                    Toast.makeText(getApplicationContext(), "전부 입력하세요 !", Toast.LENGTH_SHORT).show();
+                } else {
+                    new HttpPostRequest().execute(SERVER);
+                }
+
+
 
             }
         });
@@ -119,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
 
     }
 
@@ -166,8 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result){
             super.onPostExecute(result);
-//            TextView textView = (TextView)findViewById(R.id.textView);
-//            textView.setText(result);
+
             try {
                 //서버에 해당 id 찾아서 result 받아오고 파싱
                 JSONArray jsonArray = new JSONArray(result);
@@ -180,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
                     intent.putExtra("name", name);
                     intent.putExtra("student_id", right_student_id);
-                    //intent.putExtra("email", jsonArray.getJSONObject(0).getString("email");
+                    intent.putExtra("email", jsonArray.getJSONObject(0).getString("email"));
                     startActivity(intent);
                     overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
@@ -193,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // 회원가입 시 서버로 정보 포스트.
     public class HttpPostRequest extends AsyncTask<String, String, String>{
 
         @Override
@@ -203,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject.accumulate("student_id", in_student_id);
                 jsonObject.accumulate("password", in_password);
                 jsonObject.accumulate("name", in_name);
+                jsonObject.accumulate("email", in_email);
 
                 HttpURLConnection con = null;
                 BufferedReader reader = null;

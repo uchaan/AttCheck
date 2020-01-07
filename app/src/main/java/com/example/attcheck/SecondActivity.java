@@ -37,14 +37,11 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
     private String name, id, email;
 
-    private TextView student_name;
-    private TextView student_id;
-    private TextView student_email;
+    private TextView student_name,student_id,student_email;
+
     private TextView tvdata;
 
-    private ImageButton attCheck;
-    private ImageButton kaiPortal;
-    private ImageButton klms;
+    private ImageButton attCheck, kaiPortal, klms;
 
     String targetNotice = "http://192.249.19.252:1780/notes/";
     String targetStudent = "http://192.249.19.252:1780/students/";
@@ -153,24 +150,6 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                 inputStreamNotice.close();
                 httpURLConnectionNotice.disconnect();
 
-
-/*
-                URL Studenturl = new URL(targetStudent);
-                HttpURLConnection httpURLConnectionStudent = (HttpURLConnection)Studenturl.openConnection();
-                httpURLConnectionStudent.setRequestMethod("GET");
-                InputStream inputStreamStudent = httpURLConnectionStudent.getInputStream();
-                BufferedReader bufferedReaderStudent = new BufferedReader(new InputStreamReader(inputStreamStudent));
-                String tempStudent;
-                StringBuilder stringBuilderStudent = new StringBuilder();
-
-                while((tempStudent = bufferedReaderStudent.readLine()) != null){
-                    stringBuilderStudent.append(tempStudent + "\n");
-                }
-
-                bufferedReaderStudent.close();
-                inputStreamStudent.close();
-                httpURLConnectionStudent.disconnect();*/
-
                 return stringBuilderNotice.toString().trim();//결과값이 여기에 리턴되면 이 값이 onPostExcute의 파라미터로 넘어감
 
             }catch(Exception e){
@@ -204,6 +183,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             } else {
 
                 try {
+
                     //JSONObject jsonObject = new JSONObject(result);
                     JSONArray jsonArray = new JSONArray(result);
                     int count = 0;
@@ -212,11 +192,6 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                     //json타입의 값을 하나씩 빼서 Notice 객체에 저장후 리스트에 추가하는 부분
                     while (count < jsonArray.length()) {
                         JSONObject object = jsonArray.getJSONObject(count);
-                        //                    if (object.has("student_id")) {
-                        //                        student_name.setText(object.getString("name"));
-                        //                        student_id.setText(object.getString("student_id"));
-                        //
-                        //                    } else { }
 
                         noticeContent = object.getString("note_content");
                         noticeName = object.getString("note_name");
